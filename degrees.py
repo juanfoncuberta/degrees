@@ -62,15 +62,15 @@ def main():
     load_data(directory)
     print("Data loaded.")
 
-    source = person_id_for_name(input("Name: "))
-    if source is None:
-        sys.exit("Person not found.")
-    target = person_id_for_name(input("Name: "))
-    if target is None:
-        sys.exit("Person not found.")
+    # source = person_id_for_name(input("Name: "))
+    # if source is None:
+    #     sys.exit("Person not found.")
+    # target = person_id_for_name(input("Name: "))
+    # if target is None:
+    #     sys.exit("Person not found.")
 
-    # source = '102'
-    # target = '158'
+    source = '102'
+    target = '158'
     path = shortest_path(source, target)
 
     if path is None:
@@ -94,6 +94,32 @@ def shortest_path(source, target):
     If no possible path, returns None.
     """
 
+        initialNode = Node(source,None,0)
+    frontier = StackFrontier()
+    frontier.add(initialNode)
+    print("initial")
+    print(initialNode.action)
+    for neighbor in neighbors_for_person(source):
+      if not frontier.contains_state(neighbor[1]):
+        frontier.add(Node(neighbor[1],initialNode,initialNode.action))
+
+    print("count frontier")
+    print(frontier.num())
+    print(len(frontier.frontier))
+
+    # print(frontier.contains_state(source))
+
+    # print(frontier.contains_state(target))
+    # print(source)
+    # print(neighbors_for_person(source))
+    # print("--------------------------------")
+    # print(people)
+
+   # print(start)
+   # print(frontier)
+    # f = QueueFrontier()
+    # print(f.remove())
+    exit()
     # TODO
     raise NotImplementedError
 
