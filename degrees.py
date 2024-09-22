@@ -93,10 +93,38 @@ def shortest_path(source, target):
 
     If no possible path, returns None.
     """
-
-        initialNode = Node(source,None,0)
+    initialNode = Node(source,None,0)
     frontier = StackFrontier()
+    exploredSet = StackFrontier()
     frontier.add(initialNode)
+  
+    while not frontier.empty():
+        currentNode = frontier.remove()
+        exploredSet.add(currentNode)
+        for neighbor in neighbors_for_person(currentNode.state):
+          print('neighbor')
+          print(neighbor[1])
+          print('target')
+          print(target)
+          print(neighbor[1] == target)
+          if neighbor[1] == target:
+            print('find id')
+            print(neighbor[1])
+            print(target)
+            print(currentNode.state)
+            print(currentNode.action)
+            exit()
+          elif not frontier.contains_state(neighbor[1]) and not exploredSet.contains_state(neighbor[1]) :
+            frontier.add(Node(neighbor[1],currentNode,currentNode.action+1))
+            # print('-------')
+            # print(len(frontier.frontier))
+            # print(currentNode.state)
+            # print(neighbor[1])
+            # print('--------')
+              
+
+    exit()
+  
     print("initial")
     print(initialNode.action)
     for neighbor in neighbors_for_person(source):
@@ -107,18 +135,6 @@ def shortest_path(source, target):
     print(frontier.num())
     print(len(frontier.frontier))
 
-    # print(frontier.contains_state(source))
-
-    # print(frontier.contains_state(target))
-    # print(source)
-    # print(neighbors_for_person(source))
-    # print("--------------------------------")
-    # print(people)
-
-   # print(start)
-   # print(frontier)
-    # f = QueueFrontier()
-    # print(f.remove())
     exit()
     # TODO
     raise NotImplementedError
