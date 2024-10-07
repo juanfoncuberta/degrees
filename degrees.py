@@ -62,15 +62,13 @@ def main():
     load_data(directory)
     print("Data loaded.")
 
-    # source = person_id_for_name(input("Name: "))
-    # if source is None:
-    #     sys.exit("Person not found.")
-    # target = person_id_for_name(input("Name: "))
-    # if target is None:
-    #     sys.exit("Person not found.")
+    source = person_id_for_name(input("Name: "))
+    if source is None:
+        sys.exit("Person not found.")
+    target = person_id_for_name(input("Name: "))
+    if target is None:
+        sys.exit("Person not found.")
 
-    source = '102'
-    target = '158'
     path = shortest_path(source, target)
 
     if path is None:
@@ -93,50 +91,31 @@ def shortest_path(source, target):
 
     If no possible path, returns None.
     """
-    initialNode = Node(source,None,0)
-    frontier = StackFrontier()
+    initialNode = Node([None,source],None,0)
+    frontier = QueueFrontier()
     exploredSet = StackFrontier()
     frontier.add(initialNode)
-  
-    while not frontier.empty():
+    nodeFinded = Node([None,None],None,0)
+    
+    while not frontier.empty() and not nodeFinded.state[1]:
         currentNode = frontier.remove()
         exploredSet.add(currentNode)
-        for neighbor in neighbors_for_person(currentNode.state):
-          print('neighbor')
-          print(neighbor[1])
-          print('target')
-          print(target)
-          print(neighbor[1] == target)
-          if neighbor[1] == target:
-            print('find id')
-            print(neighbor[1])
-            print(target)
-            print(currentNode.state)
-            print(currentNode.action)
-            exit()
-          elif not frontier.contains_state(neighbor[1]) and not exploredSet.contains_state(neighbor[1]) :
-            frontier.add(Node(neighbor[1],currentNode,currentNode.action+1))
-            # print('-------')
-            # print(len(frontier.frontier))
-            # print(currentNode.state)
-            # print(neighbor[1])
-            # print('--------')
-              
+        
+        for neighbor in neighbors_for_person(currentNode.state[1]):
+          if neighbor[1] != source:
+            if neighbor[1] == target:
+              nodeFinded = Node(neighbor,currentNode,neighbor)
+                
+            elif not frontier.contains_state(neighbor[1]) and not exploredSet.contains_state(neighbor[1]) :
+              frontier.add(Node(neighbor,currentNode,currentNode.action+1))
+            
+    path = []
+    while nodeFinded.state[0]:
+      path.insert(0,nodeFinded.state)
+      nodeFinded = nodeFinded.parent
 
-    exit()
-  
-    print("initial")
-    print(initialNode.action)
-    for neighbor in neighbors_for_person(source):
-      if not frontier.contains_state(neighbor[1]):
-        frontier.add(Node(neighbor[1],initialNode,initialNode.action))
+    return path
 
-    print("count frontier")
-    print(frontier.num())
-    print(len(frontier.frontier))
-
-    exit()
-    # TODO
     raise NotImplementedError
 
 
