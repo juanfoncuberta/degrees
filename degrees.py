@@ -56,18 +56,18 @@ def main():
     if len(sys.argv) > 2:
         sys.exit("Usage: python degrees.py [directory]")
     directory = sys.argv[1] if len(sys.argv) == 2 else "large"
- 
+
     # Load data from files into memory
     print("Loading data...")
     load_data(directory)
     print("Data loaded.")
+    searchBegins()
 
-    source = person_id_for_name(input("Name: "))
-    if source is None:
-        sys.exit("Person not found.")
-    target = person_id_for_name(input("Name: "))
-    if target is None:
-        sys.exit("Person not found.")
+
+def searchBegins():
+
+    source = findActorId("First actress/actor: ")
+    target = findActorId("Second actress/actor: ")
 
     path = shortest_path(source, target)
 
@@ -82,7 +82,22 @@ def main():
             person2 = people[path[i + 1][1]]["name"]
             movie = movies[path[i + 1][0]]["title"]
             print(f"{i + 1}: {person1} and {person2} starred in {movie}")
+    playAgain = input("Do you want to play again?  (Please type 1 for yes and 0 for no): ")
+    if playAgain != '0':
+        print("----------------------")
+        print("Let's play again!!")
+        print("----------------------")
+        searchBegins()
+    else:
+        print("Goodbye! Hope to see you soon!")
 
+def findActorId(text):
+  id = None
+  while id is None:
+    id = person_id_for_name(input(text))
+    if id is None:
+      print("Person not found, please try again.")
+  return id
 
 def shortest_path(source, target):
     """
