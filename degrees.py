@@ -129,7 +129,10 @@ def shortest_path(source, target):
       path.insert(0,nodeFinded.state)
       nodeFinded = nodeFinded.parent
 
-    return path
+    if(len(path)):
+      return path
+    
+    return None
 
     raise NotImplementedError
 
